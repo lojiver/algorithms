@@ -1,7 +1,9 @@
 from typing import List, Tuple
 
 
-def get_neighbours(matrix: List[List[int]], row: int, col: int, n: int, m: int) -> List[int]:
+def get_neighbours(
+        matrix: List[List[int]], row: int, col: int, n: int, m: int
+        ) -> List[int]:
     result = []
     if col > 0:
         result.append(matrix[row][col - 1])
