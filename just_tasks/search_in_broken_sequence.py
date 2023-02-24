@@ -12,49 +12,28 @@
 сломанном массиве.
 '''
 
-# успешная попытка на контесте 82825072
-
-
-def binary_search(arr, x, left, right):
-    if right <= left:  # промежуток пуст
-        return -1
-    # промежуток не пуст
-    mid = (left + right) // 2
-    if arr[mid] == x:  # центральный элемент — искомый
-        return mid
-    elif x < arr[mid]:  # искомый элемент меньше центрального,
-        # значит следует искать в левой половине
-        return binary_search(arr, x, left, mid)
-    else:  # иначе следует искать в правой половине
-        return binary_search(arr, x, mid + 1, right)
-
-
-def search_begining(arr, last, left, right, max_position=-1, max=0):
-    if right <= left:
-        return max_position + 1
-    mid = (left + right) // 2
-    if arr[mid] - last > max:
-        max = arr[mid] - last
-        max_position = mid
-        return search_begining(arr, last, mid + 1, right, max_position, max)
-    elif arr[mid] - last < max:
-        return search_begining(arr, last, left, mid, max_position, max)
+# успешная попытка на контесте 82864769
 
 
 def broken_search(nums, target) -> int:
-    if len(nums) > 2:
-        begining = search_begining(nums, nums[-1], 0, len(nums))
-        if target <= nums[-1]:
-            return binary_search(nums, target, begining, len(nums))
-        elif target < nums[begining - 1]:
-            return binary_search(nums, target, 0, begining)
+    left = 0
+    right = len(nums) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            return mid
+        elif nums[left] <= nums[mid]:
+            if nums[left] <= target <= nums[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
         else:
-            return -1
-    else:
-        for i in range(len(nums)):
-            if nums[i] == target:
-                return i
-        return -1
+            if nums[mid] <= target <= nums[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+    return -1
 
 
 def test():
